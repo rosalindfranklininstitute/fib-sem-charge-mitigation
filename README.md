@@ -1,2 +1,2 @@
 # fib-sem-charge-mitigation
-Data acquisition and data processing scripts for FIBSEM
+Data acquisition and processing scripts for FIBSEM
