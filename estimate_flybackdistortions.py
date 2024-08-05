@@ -48,7 +48,8 @@ for frame in range(0, total_frames):
     imagencropped = imagen[y1: y2, 0: width]
     imagencropped = imagencropped.astype(np.int32)
     imagencropped = imagencropped - (-32768)
-    imagencropped = imagencropped.astype(np.uint16)
+    imagenCropped = imagenCropped*(255/65535)
+    imagenCropped = imagenCropped.astype(np.uint8)
     imagencropped = (imagencropped - np.min(imagencropped))/(np.max(imagencropped)-np.min(imagencropped))
     
     "Apply Gaussian filter to denoise"
