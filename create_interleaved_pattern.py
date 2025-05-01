@@ -28,7 +28,7 @@ skip = 2 #raster scan would be -> skip = 0
 
 fraction = (1/(skip+1))*(1/(skip+1)) #fraction of scan positions per subframe
 print('Fraction of scan position for each subframe = ', fraction)
-subframes = int(1/fraction) #number of subframes to scan all the positions 
+subframes = int(np.round(1/fraction)) #number of subframes to scan all the positions 
 print('Number of required subframes = ', subframes)
 
 
