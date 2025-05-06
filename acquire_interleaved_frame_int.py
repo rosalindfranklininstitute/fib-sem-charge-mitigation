@@ -118,8 +118,8 @@ stack = stack.reshape(1, y_size, x_size) #correction for wrong indexing
 for i in range(0, integration):
     image_tif = np.load(folder + 'IL_FI_' + str(i) + '.npy')
     #stack = np.concatenate((stack, image_tif.reshape(1, x_size, y_size)), axis =0)
-    stack = np.concatenate((stack, image_tif.reshape(1, y_size, x_size)), axis =0)# correction for wrong indexing
-
+    stack = np.concatenate((stack, image_tif.reshape(1, y_size, x_size)), axis =0) #correction for wrong indexing
+    
 stack = stack[1: integration + 1, :, :]
 
 
