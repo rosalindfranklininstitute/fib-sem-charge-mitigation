@@ -28,7 +28,8 @@ skip = 2 #raster scan would be -> skip = 0
 
 fraction = (1/(skip+1))*(1/(skip+1)) #fraction of scan positions per subframe
 print('Fraction of scan position for each subframe = ', fraction)
-subframes = int(1/fraction) #number of subframes to scan all the positions 
+#subframes = int(1/fraction) #number of subframes to scan all the positions 
+subframes = int(np.round(1/fraction)) #number of subframes to scan all the positions. Correction for a rounding error in the previous version
 print('Number of required subframes = ', subframes)
 
 
@@ -61,7 +62,6 @@ for first_row in range(0, int(np.sqrt(subframes))):
 "x and y final scan positions"
 scanposx = scanposx.astype(int)
 scanposy = scanposy.astype(int)
-
 
 
 "Save positions in a text file (.xy)"
