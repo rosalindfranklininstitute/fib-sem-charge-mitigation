@@ -59,16 +59,26 @@ image_int = np.zeros((y_size, x_size))
 scan_array_2index = np.genfromtxt('C:\\Users\\User\\Desktop\\ScanGenProject\\arbitrary patterns\\' + 'interleaved' + str(x_size) + 'x' + str(y_size) + '.xy', delimiter=",").astype(int)
 pattern = convert_pattern_to_1D(scan_array_2index)
 
-for k in range(0, integration):
-    scan_generator.set_image_size(x_size, y_size)
-    scan_generator.set_enabled_inputs(input)
-    frame_monitor = FrameMonitor(x_size, y_size, input, max_queue_size=1)
-    frame_monitor.register(scan_generator)
 
-    scan_generator.scan_pattern.write_xy_array(x_size, y_size, pattern)
+"Recent changes to reduce holes drilled by the steady probe during sequential acquisitions"
+"Lines commented in the for-loop"
+scan_generator.scan_pattern.write_xy_array(x_size, y_size, pattern)
+scan_generator.set_image_size(x_size, y_size)
+scan_generator.set_enabled_inputs(input)
+frame_monitor = FrameMonitor(x_size, y_size, input, max_queue_size=1)
+frame_monitor.register(scan_generator)
+
+
+for k in range(0, integration):
+#    scan_generator.set_image_size(x_size, y_size)
+#    scan_generator.set_enabled_inputs(input)
+#    frame_monitor = FrameMonitor(x_size, y_size, input, max_queue_size=1)
+#    frame_monitor.register(scan_generator)
+
+#    scan_generator.scan_pattern.write_xy_array(x_size, y_size, pattern)
     scan_generator.start_table_imaging(0)
 
-    scan_generator.stop_imaging(False)
+#    scan_generator.stop_imaging(False)
     frame_monitor.wait_for_image(timeout=scan_generator.get_image_time()+1.0)
     imagen = frame_monitor.pop()
     imagen = imagen.get_input_data(input[0])
@@ -100,12 +110,15 @@ print("Scan gen imaging success!")
 
 
 "Create stack of tif images"
-stack = np.empty((x_size, y_size), dtype=np.uint8)
-stack = stack.reshape(1, x_size, y_size)
+#stack = np.empty((x_size, y_size), dtype=np.uint8)
+#stack = stack.reshape(1, x_size, y_size)
+stack = np.empty((y_size, x_size), dtype=np.uint8) #correction for wrong indexing
+stack = stack.reshape(1, y_size, x_size) #correction for wrong indexing
 
 for i in range(0, integration):
     image_tif = np.load(folder + 'IL_FI_' + str(i) + '.npy')
-    stack = np.concatenate((stack, image_tif.reshape(1, x_size, y_size)), axis =0)
+    #stack = np.concatenate((stack, image_tif.reshape(1, x_size, y_size)), axis =0)
+    stack = np.concatenate((stack, image_tif.reshape(1, y_size, x_size)), axis =0)# correction for wrong indexing
 
 stack = stack[1: integration + 1, :, :]
 
